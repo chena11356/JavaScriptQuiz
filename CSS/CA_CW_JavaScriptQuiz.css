@@ -1,0 +1,83 @@
+/*color scheme
+#FEFFE5 light yellow
+#F5DD9D yellow
+#BCC499 light green
+#92A68A green
+#7B8F8A blue
+#506266 dark blue
+#323D3F dark dark blue
+*/
+body { /*dark body, 50px margins*/
+	background-color:#506266;
+	margin: 50px;
+}
+div { /*divs are rounded and have padding/margins*/
+	padding:5px;
+	margin:5px;
+	border-radius:20px;
+}
+div.intro { /*intro div is yellow*/
+	background-color:#F5DD9D;
+}
+img {
+	margin:5px;
+}
+p { /*font size is slightly big and dark green*/
+	color:#323D3F;
+	padding:5px;
+	margin:2px;
+	font-size:1.25em;
+}
+h1 { /*h1 is centered and yellow*/
+	color:#F5DD9D;
+	text-align:center;
+}
+div.quiz { /*quiz div is pale green*/
+	background-color:#92A68A;
+}
+form {
+	margin-left:10px;
+	color:#323D3F; /*text within the form is dark green*/
+}
+div.resultsHidden { /*at first, results are hidden*/
+	display:hidden;
+}
+div.results { /*once submitted, results become visible and no longer hidden*/
+	background-color:#BCC499;
+}
+
+input { /*text is dark green*/
+	color:#323D3F;
+}
+
+label.selected { /*selected radio buttons are dark green with white text*/
+	background-color:#323D3F;
+	color:#FEFFE5;
+	font-weight:bold;
+}
+label.clear { /*cleared radio buttons look normal*/
+	background-color:transparent;
+	color:#323D3F;
+	font-weight:normal;
+}
+label.right,input.right { /*right answers are green, bold, and have white text*/
+	background-color:green;
+	color:white;
+	font-weight:bold;
+}
+label.wrong,input.wrong { /*wrong answers are red, bold, and have white text*/
+	background-color:red;
+	color:white;
+	font-weight:bold;
+}
+
+li.liQuest{ /*list of questions has a border on the left*/
+padding:8px;
+border-left: 1px solid black;
+}
+ol.mcAnswers{ /*answer choices for multiple choice are numbered by lowercase letters*/
+list-style-type:lower-alpha;
+}
+button {
+	margin:10px;
+}
