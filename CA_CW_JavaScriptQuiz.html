@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quiz</title> <!--title of the page is quiz-->
+<link href="CSS/CA_CW_JavaScriptQuiz.css" rel="stylesheet" type="text/css"><!--get css-->
+<script src="JS/CA_CW_JavaScriptQuiz.js"></script>
+<script> //write internal js for functions that are more directly involved with execution (they don't seem to work if placed in external js file)
+function validateSelected(arr) {//grading function
+/*It should run a loop thru all of the selectArray elements, as each one is the name of a question (t/f or mult choice). For each of the questions (answer1, answer2, ... answer12)
+it should run the code Mr. Fomin gave us to highlight the correct answer in green and if a non-correct answer is checked, then it is highlighted in red. However, Mr. Fomin's code did not
+swap answers, so it uses a qKey variable that states which # answer is correct. Instead, it sees if the id of the considered question choice is = q(insert number of question here)a1. 
+*/
+	if (submitted==false) { //make sure that user must refresh if they want to retake the quiz
+	submitted=true
+	var radioButtonID = "";
+	var labelSelector = "";
+    var label = "";
+	for (var j = 0; j < arr.length; j++){
+	var q = arr[j]; //loop through questions
+	var len = document.jsQuiz[q].length;
+	for (var i = 0; i < len; i++) { //loop through answers for each question and see if they are right, wrong, or empty
+		radioButtonID = document.jsQuiz[q][i].id;
+		labelSelector = 'label[for=' + radioButtonID + ']';
+		label = document.querySelector(labelSelector); //identify label
+		if (document.jsQuiz[q][i].id == "q" + String(j+1) + "a1") { //if the answer is the right answer (a1s are all right)
+			setRight(label); //set the green label to indicate correct answer no matter if user chose it or not
+			if (document.jsQuiz[q][i].checked) {score+=1} //if user actually chose answer, increment score
+		} else if ( document.jsQuiz[q][i].checked ) { //otherwise, set red label to indicate wrong user answer
+            setWrong(label);
+		}
+	
+}}
+	validateSA(saArray); //short answer grading is in a separate function
+	buildScore();}} //show the score
+
+function validateSA(arr) { //grade the short answer
+	box1 = document.getElementById('sa1') //first grade #15
+	a = document.jsQuiz["answer15"].value; //get user input
+	a = a.toLowerCase(); //convert all to lowercase so that it doesn't matter if user typed in upper or lower case
+	if (a=="innerhtml") { //if user got it right
+	setRight(box1); //make it green and increment score by 2
+	score+=2;} else { //otherwise make it red
+	setWrong(box1)};
+	//now grade number 16
+	box2 = document.getElementById('sa2') //get user input
+	x = box2.value;
+	if (isNaN(x) || x < 0 || x >= 1 || x == "") { //if input is not a number, not within the boundaries, or empty, it's wrong
+        setWrong(box2);
+    } else { //otherwise it's right
+        setRight(box2);
+		score+=2;
+    }
+}
+
+</script>
+</head>
+<body>
+<h1>Quiz</h1> <!--heading of the page is quiz-->
+<div class="intro"> <!--introduce first main div, which is the introduction box-->
+<img src="images/smiley.png" alt="smiley" style="float:left;height:25px;"></img> <!--smiley face so you can smile, mr fomin! :) -->
+<p>Let's take a quiz. There will be 10 multiple choice questions, 4 true/false questions, 
+and 2 short answer questions. The multiple choice and true/false will be worth 1 point per question; 
+the short answer will be worth 2 points per question. Good luck!</p>
+</div>
+<div class="quiz"> <!--introduce second main div, which is the quiz box-->
+
+<form name="jsQuiz" id="jsQuiz"> <!--create the quiz form-->
+<ol id = "mcQ"> <!--make an ordered list of questions-->
+<li class="liQuest"> <!--each liQuest list item is just a question-->
+<div id="q1"> <!--each question is placed into an identified div as well-->
+<p>Which of the following refers to a variable that can be accessed by any function?</p><ol id="q1answers" class="mcAnswers"> <!--list of answers for each question-->
+  <li><input type="radio" name="answer1" onclick="check(this.name,this.id )" id="q1a1"><label for="q1a1">Global</label><br></li> <!--answer choice-->
+  <li><input type="radio" name="answer1" onclick="check(this.name,this.id )" id="q1a2"><label for="q1a2">Local</label><br></li>
+  <li><input type="radio" name="answer1" onclick="check(this.name,this.id )" id="q1a3"><label for="q1a3">Universal</label><br></li>
+  <li><input type="radio" name="answer1" onclick="check(this.name,this.id )" id="q1a4"><label for="q1a4">Special</label><br></li>
+</ol><br> <!--same pattern is seen for the rest of the multiple choice questions-->
+</div>
+</li>
+<li class="liQuest">
+<div id="q2">
+<p>Which of the following attributes would you use to link to external Javascript?</p><ol id="q2answers" class="mcAnswers">
+  <li><input type="radio" name="answer2" onclick="check(this.name,this.id )" id="q2a1"><label for="q2a1">src</label><br></li>
+  <li><input type="radio" name="answer2" onclick="check(this.name,this.id )" id="q2a2"><label for="q2a2">href</label><br></li>
+  <li><input type="radio" name="answer2" onclick="check(this.name,this.id )" id="q2a3"><label for="q2a3">a</label><br></li>
+  <li><input type="radio" name="answer2" onclick="check(this.name,this.id )" id="q2a4"><label for="q2a4">link</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q3">
+<p>How do you convert a string to all capital letters?</p><ol id="q3answers" class="mcAnswers">
+  <li><input type="radio" name="answer3" onclick="check(this.name,this.id )" id="q3a1"><label for="q3a1">string.toUpperCase()</label><br></li>
+  <li><input type="radio" name="answer3" onclick="check(this.name,this.id )" id="q3a2"><label for="q3a2">string.upper()</label><br></li>
+  <li><input type="radio" name="answer3" onclick="check(this.name,this.id )" id="q3a3"><label for="q3a3">string.caps()</label><br></li>
+  <li><input type="radio" name="answer3" onclick="check(this.name,this.id )" id="q3a4"><label for="q3a4">string.capitalize()</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q4">
+<p>How do you set Javascript to strict mode?</p><ol id="q4answers" class="mcAnswers">
+  <li><input type="radio" name="answer4" onclick="check(this.name,this.id )" id="q4a1"><label for="q4a1">'use strict';</label><br></li>
+  <li><input type="radio" name="answer4" onclick="check(this.name,this.id )" id="q4a2"><label for="q4a2">document.strict()</label><br></li>
+  <li><input type="radio" name="answer4" onclick="check(this.name,this.id )" id="q4a3"><label for="q4a3">use ('strict');</label><br></li>
+  <li><input type="radio" name="answer4" onclick="check(this.name,this.id )" id="q4a4"><label for="q4a4">useStrict=true</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q5">
+<p>How do you retrieve an array of all elements by tag name and class name?</p><ol id="q5answers" class="mcAnswers">
+  <li><input type="radio" name="answer5" onclick="check(this.name,this.id )" id="q5a1"><label for="q5a1">document.querySelectorAll()</label><br></li>
+  <li><input type="radio" name="answer5" onclick="check(this.name,this.id )" id="q5a2"><label for="q5a2">document.getElementsByClassName()</label><br></li>
+  <li><input type="radio" name="answer5" onclick="check(this.name,this.id )" id="q5a3"><label for="q5a3">document.getElementsByTagName()</label><br></li>
+  <li><input type="radio" name="answer5" onclick="check(this.name,this.id )" id="q5a4"><label for="q5a4">document.getElementsByTagName()</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q6">
+<p>How do you convert a string to an array?</p><ol id="q6answers" class="mcAnswers">
+  <li><input type="radio" name="answer6" onclick="check(this.name,this.id )" id="q6a1"><label for="q6a1">string.split()</label><br></li>
+  <li><input type="radio" name="answer6" onclick="check(this.name,this.id )" id="q6a2"><label for="q6a2">string.array()</label><br></li>
+  <li><input type="radio" name="answer6" onclick="check(this.name,this.id )" id="q6a3"><label for="q6a3">string.separate()</label><br></li>
+  <li><input type="radio" name="answer6" onclick="check(this.name,this.id )" id="q6a4"><label for="q6a4">string.cut()</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q7">
+<p>What is the type of NaN?</p><ol id="q7answers" class="mcAnswers">
+  <li><input type="radio" name="answer7" onclick="check(this.name,this.id )" id="q7a1"><label for="q7a1">number</label><br></li>
+  <li><input type="radio" name="answer7" onclick="check(this.name,this.id )" id="q7a2"><label for="q7a2">object</label><br></li>
+  <li><input type="radio" name="answer7" onclick="check(this.name,this.id )" id="q7a3"><label for="q7a3">null</label><br></li>
+  <li><input type="radio" name="answer7" onclick="check(this.name,this.id )" id="q7a4"><label for="q7a4">string</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q8">
+<p>What type of layer is Javascript?</p><ol id="q8answers" class="mcAnswers">
+  <li><input type="radio" name="answer8" onclick="check(this.name,this.id )" id="q8a1"><label for="q8a1">Dynamic</label><br></li>
+  <li><input type="radio" name="answer8" onclick="check(this.name,this.id )" id="q8a2"><label for="q8a2">Presentational</label><br></li>
+  <li><input type="radio" name="answer8" onclick="check(this.name,this.id )" id="q8a3"><label for="q8a3">Structural</label><br></li>
+  <li><input type="radio" name="answer8" onclick="check(this.name,this.id )" id="q8a4"><label for="q8a4">Style</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q9">
+<p>Which of the following is required to define a function?</p><ol id="q9answers" class="mcAnswers">
+  <li><input type="radio" name="answer9" onclick="check(this.name,this.id )" id="q9a1"><label for="q9a1">function</label><br></li>
+  <li><input type="radio" name="answer9" onclick="check(this.name,this.id )" id="q9a2"><label for="q9a2">fun</label><br></li>
+  <li><input type="radio" name="answer9" onclick="check(this.name,this.id )" id="q9a3"><label for="q9a3">foo</label><br></li>
+  <li><input type="radio" name="answer9" onclick="check(this.name,this.id )" id="q9a4"><label for="q9a4">method</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q10">
+<p>What is wrong with the following? var mr_fomin = getElementsByTagName("p").innerHTML</p><ol id="q10answers" class="mcAnswers">
+  <li><input type="radio" name="answer10" onclick="check(this.name,this.id )" id="q10a1"><label for="q10a1">document. is missing</label><br></li>
+  <li><input type="radio" name="answer10" onclick="check(this.name,this.id )" id="q10a2"><label for="q10a2">Variable name cannot contain underscore</label><br></li>
+  <li><input type="radio" name="answer10" onclick="check(this.name,this.id )" id="q10a3"><label for="q10a3">P is not a valid tag name</label><br></li>
+  <li><input type="radio" name="answer10" onclick="check(this.name,this.id )" id="q10a4"><label for="q10a4">innerHTML cannot be set as a variable</label><br></li>
+</ol><br>
+</div>
+</li>
+</ol>
+<!--/////////////////////////////////////////////////////////////now the t/f questions/////////////////////////////////////////////////////////////-->
+<hr> <!--horizontal rule-->
+<ol id="tfQ" start="11"> <!--basically the same as multiple choice though, in terms of coding-->
+<li class="liQuest">
+<div id="q11">
+<p>Javascript is unrelated to Java.</p><ol id="q11answers" class="mcAnswers">
+	<li><input type="radio" name="answer11" onclick="check(this.name,this.id )" id="q11a1"><label for="q11a1">True</label><br></li> <!--again, all a1s are right-->
+	<li><input type="radio" name="answer11" onclick="check(this.name,this.id )" id="q11a2"><label for="q11a2">False</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q12">
+<p>Javascript can access the DOM.</p><ol id="q12answers" class="mcAnswers">
+	<li><input type="radio" name="answer12" onclick="check(this.name,this.id )" id="q12a1"><label for="q12a1">True</label><br></li>
+	<li><input type="radio" name="answer12" onclick="check(this.name,this.id )" id="q12a2"><label for="q12a2">False</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q13">
+<p>/ turns special characters into normal strings</p><ol id="q13answers" class="mcAnswers">
+	<li><input type="radio" name="answer13" onclick="check(this.name,this.id )" id="q13a2"><label for="q13a2">True</label><br></li>
+	<li><input type="radio" name="answer13" onclick="check(this.name,this.id )" id="q13a1"><label for="q13a1">False</label><br></li>
+</ol><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q14">
+<p>pic.addEventListener('onclick',function()) adds an event listener to the element stored in variable pic such that function() is called when the element is clicked.</p>
+<ol id="q14answers" class="mcAnswers">
+	<li><input type="radio" name="answer14" onclick="check(this.name,this.id )" id="q14a2"><label for="q14a2">True</label><br></li>
+	<li><input type="radio" name="answer14" onclick="check(this.name,this.id )" id="q14a1"><label for="q14a1">False</label><br></li>
+</ol><br>
+</div>
+</li>
+</ol>
+<!--now the short-answer questions-->
+<hr>
+<ol id="saQ" start="15">
+<li class="liQuest">
+<div id="q15">
+<p>How do you refer to the contents of an element in Javascript? (Do not put the period or anything before it)</p> <!--answer is innerHTML-->
+	<input type="text" name="answer15" id="sa1">
+<br><br>
+</div>
+</li>
+<li class="liQuest">
+<div id="q16">
+<p>Type in a possible result of Math.random()</p> <!--anything in between 0 (included) and 1 (excluded)-->
+<input type="text" name="answer16" id="sa2">
+<br><br>
+</div>
+</li>
+</ol>
+</form>
+<button id="submitButton" onclick="validateSelected(selectArray)">Submit</button> <!--submission button-->
+<br>
+</div>
+<div class="resultsHidden" id="results"> <!--results box is hidden at first and then shown once quiz is submitted (alternate CSS ruleset)-->
+<p style="visibility:hidden;" id="resultsText"><a href="CA_CW_JavaScriptQuiz.html"><button>Again?</button></a></p> <!--results are hidden at first and then shown once quiz is submitted-->
+</div>
+<script> //scramble the questions and scramble the answer choices for each question too
+scramble("mcQ");
+scrAns(mcAnsArray);
+scramble("tfQ");
+scramble("saQ");
+</script>
+</body>
+</html>
